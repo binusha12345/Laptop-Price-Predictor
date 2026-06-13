@@ -19,7 +19,7 @@ An attractive Flask machine learning web app that predicts laptop prices from sp
 
 - Modern glassmorphism user interface
 - Machine learning based price prediction
-- Dedicated `model/` folder for notebook-based training work
+- Dedicated `model/` folder for notebook-based training work and the trained predictor
 - Simple Flask backend
 - Trained model saved as a pickle file
 - Responsive laptop specification form
@@ -43,33 +43,48 @@ An attractive Flask machine learning web app that predicts laptop prices from sp
 ## Project Structure
 
 ```text
-Laptop Price Predictor/
-+-- model/                         # Main ML workspace
+website/
++-- app.py                         # Flask application
++-- Procfile                       # Deployment command for Gunicorn
++-- README.md                      # Project documentation
++-- model/                         # Uploaded ML files used by the app
 |   +-- model building.ipynb        # Jupyter notebook for model training
-|   +-- predictor.pickle            # Saved trained model file
-+-- website/
-|   +-- app.py                      # Flask application
-|   +-- Procfile
-|   +-- model/                      # Model used by the Flask app
-|   |   +-- predictor.pickle        # Production prediction model
-|   +-- static/
-|   |   +-- style.css
-|   +-- templates/
-|       +-- index.html
-+-- README.md
+|   +-- predictor.pickle            # Saved trained prediction model
++-- static/
+|   +-- style.css                   # Application styles
++-- templates/
+|   +-- index.html                  # Main web page
++-- env/                           # Local virtual environment, not required in repo
 ```
+
+---
+
+## Uploaded Files
+
+The latest uploaded project files are:
+
+| File / Folder | Purpose |
+| --- | --- |
+| `app.py` | Flask backend that receives form data and returns the predicted laptop price |
+| `Procfile` | Deployment file for running the app with Gunicorn |
+| `README.md` | Documentation for the project |
+| `model/model building.ipynb` | Jupyter Notebook used for model building and experimentation |
+| `model/predictor.pickle` | Trained machine learning model loaded by the Flask app |
+| `static/style.css` | Styling for the web interface |
+| `templates/index.html` | Main HTML template for the prediction form |
+
+The `env/` and `model/env/` folders are local virtual environments. They are useful on your computer, but they should normally be excluded from GitHub with `.gitignore`.
 
 ---
 
 ## Model Folder Highlight
 
-The `model/` folder is an important part of this project because it contains the machine learning development files.
+The `model/` folder is an important part of this project because it contains both the machine learning development file and the saved model used by the website.
 
 | File / Folder | Purpose |
 | --- | --- |
 | `model/model building.ipynb` | Main Jupyter Notebook used for data analysis, preprocessing, model training, and experimentation |
-| `model/predictor.pickle` | Saved trained ML model generated from the notebook |
-| `website/model/predictor.pickle` | Model file loaded by the Flask web app for live price prediction |
+| `model/predictor.pickle` | Saved trained ML model generated from the notebook and loaded by `app.py` |
 
 The notebook is useful for understanding how the model was created, while the pickle files are used to store and reuse the trained predictor without retraining every time.
 
@@ -80,7 +95,7 @@ The notebook is useful for understanding how the model was created, while the pi
 1. The user enters laptop details in the web form.
 2. Flask receives the form data through a POST request.
 3. The input values are converted into a model-ready feature list.
-4. The trained model from `website/model/predictor.pickle` predicts the laptop price.
+4. The trained model from `model/predictor.pickle` predicts the laptop price.
 5. The app displays the estimated price in Sri Lankan Rupees.
 
 ---
@@ -171,17 +186,22 @@ This can be used by platforms that support Procfile-based Python deployments.
 
 This project includes both the training notebook and saved model files.
 
-Training and experimentation files:
+Training and experimentation file:
 
 ```text
 model/model building.ipynb
+```
+
+Saved model used by the Flask website:
+
+```text
 model/predictor.pickle
 ```
 
-Model used by the website:
+In `app.py`, the model path is:
 
-```text
-website/model/predictor.pickle
+```python
+filename = 'model/predictor.pickle'
 ```
 
 ---
